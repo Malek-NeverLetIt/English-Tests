@@ -1,0 +1,289 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>مراجعة قصيرة يومية\أسبوعية — الصف الثالث الإعدادي</title>
+<style>
+:root{
+  --bg1:#071028; --metal1:#0f1724; --steel:#2b3440;
+  --accent:#2b6cff; --accent-2:#7dd3fc; --glass: rgba(255,255,255,0.04);
+  --text:#e6eef8; --muted:rgba(230,238,248,0.65); --success:#86efac; --error:#fecaca;
+}
+*{box-sizing:border-box;font-family:"Segoe UI","Noto Kufi Arabic",Tahoma,system-ui,-apple-system}
+html,body{height:100%;margin:0;background:
+  radial-gradient(900px 400px at 10% 10%, rgba(45,100,255,0.06), transparent 10%),
+  linear-gradient(180deg,var(--bg1), #041022); color:var(--text); -webkit-font-smoothing:antialiased;}
+.app-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:28px}
+
+/* SPLASH */
+.splash{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;z-index:90;
+  background:linear-gradient(180deg, rgba(2,6,23,0.72), rgba(2,6,23,0.86));
+  backdrop-filter: blur(6px);}
+.splashCard{width:100%;max-width:820px;padding:26px;border-radius:14px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.008));
+  border:1px solid rgba(255,255,255,0.04); box-shadow:0 22px 70px rgba(2,6,23,0.7); text-align:center;}
+.header-title{font-weight:900;font-size:20px;color:var(--accent-2);margin:6px 0}
+.header-sub{font-size:14px;color:var(--muted);margin:6px 0}
+.meta-line{font-size:13px;color:rgba(230,238,248,0.6);margin-bottom:14px}
+.ready-box{margin:12px auto;padding:18px;border-radius:12px;background:linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));width:fit-content;min-width:260px}
+
+/* start button */
+.btn{
+  display:inline-block;padding:12px 22px;border-radius:12px;border:none;font-weight:800;cursor:pointer;
+  color:var(--metal1); background:linear-gradient(90deg,var(--accent),var(--accent-2));
+  box-shadow:0 12px 36px rgba(43,108,255,0.12); transition:transform .14s;
+}
+.btn:active{transform:translateY(2px)}
+
+/* APP */
+.container{width:100%;max-width:920px;margin:0 auto;visibility:hidden}
+.header{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+.h-left{text-align:right}
+.h-left h1{margin:0;font-size:18px;font-weight:900;color:var(--accent-2)}
+.h-left .meta{font-size:13px;color:var(--muted);margin-top:6px}
+.card{
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.008));
+  border-radius:14px;padding:18px;border:1px solid rgba(255,255,255,0.04);
+  box-shadow:0 18px 60px rgba(2,6,23,0.7);
+}
+
+/* question view */
+.progress{height:10px;background:rgba(255,255,255,0.02);border-radius:999px;overflow:hidden;margin-bottom:12px}
+.progress > i{display:block;height:100%;background:linear-gradient(90deg,var(--accent),var(--accent-2));width:0%;transition:width .45s ease}
+.question{margin:6px 0;padding:14px;border-radius:12px;background:linear-gradient(90deg, rgba(255,255,255,0.01), rgba(255,255,255,0.008)); transition:transform .32s cubic-bezier(.2,.9,.2,1),opacity .28s}
+.qtext{font-weight:800;margin-bottom:10px;font-size:16px;color:var(--text)}
+.choices{display:flex;flex-direction:column;gap:10px}
+label.choice{display:flex;align-items:center;gap:12px;padding:12px;border-radius:10px;border:1px solid rgba(255,255,255,0.03);cursor:pointer;background:rgba(255,255,255,0.01)}
+label.choice:hover{background:rgba(255,255,255,0.02)}
+input[type="radio"]{accent-color:var(--accent)}
+
+.controls{display:flex;justify-content:space-between;align-items:center;margin-top:14px}
+.small{font-size:13px;color:var(--muted)}
+.result{margin-top:12px;padding:14px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.008));border:1px solid rgba(255,255,255,0.03);display:none}
+
+/* animation classes for slide */
+.slide-in{animation:slideIn .36s ease forwards}
+.slide-out-left{animation:slideOutLeft .28s ease forwards}
+@keyframes slideIn{from{opacity:0;transform:translateX(12px)}to{opacity:1;transform:none}}
+@keyframes slideOutLeft{to{opacity:0;transform:translateX(-12px)}}
+
+/* responsive */
+@media (max-width:600px){
+  .splashCard{padding:18px}
+  .qtext{font-size:15px}
+  .btn{padding:10px 16px}
+}
+</style>
+</head>
+<body>
+
+<!-- SPLASH -->
+<div class="splash" id="splash">
+  <div class="splashCard" role="dialog" aria-labelledby="title">
+    <div id="title" class="header-title">مراجعة قصيرة يومية\أسبوعية</div>
+    <div class="header-sub">بإشراف: أ.باسم | تصميم: مالك</div>
+
+    <div class="ready-box">
+      <div style="font-size:28px;font-weight:900;color:var(--accent-2);margin-bottom:6px">مستعد!!</div>
+      <div style="font-size:14px;color:var(--muted);margin-bottom:12px">اضغط ابدأ عندما تكون جاهزًا</div>
+      <button id="startBtn" class="btn" onclick="appStart()">ابدأ</button>
+    </div>
+  </div>
+</div>
+
+<!-- APP -->
+<div class="app-wrap">
+  <div class="container" id="quizApp" aria-hidden="true">
+    <div class="header">
+      <div class="h-left">
+        <h1>اختبار اللغة الإنجليزية — الصف الثالث الإعدادي</h1>
+        <div class="meta">بإشراف: أ.باسم | تصميم: مالك</div>
+      </div>
+    </div>
+
+    <div class="card" id="card">
+      <div class="progress" aria-hidden="true"><i id="progBar"></i></div>
+
+      <div id="qContainer"></div>
+
+      <div class="controls">
+        <button class="btn" id="prevBtn">السابق</button>
+        <div class="small">سؤال <span id="currentNum">0</span> / <span id="totalNum">0</span></div>
+        <button class="btn" id="nextBtn">التالي</button>
+      </div>
+
+      <div id="resultBox" class="result" role="status"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ====== Data (5 questions: corrected Q3 answer) ====== */
+const questions = [
+  { q: "70'clock — ضع أداة الاستفهام المناسبة:", choices:["why","when","what time","what color"], answer:2 },
+  { q: "300 L.E — ضع أداة الاستفهام المناسبة:", choices:["when","how much","where","how long"], answer:1 },
+  { q: "by — ضع أداة الاستفهام المناسبة:", choices:["which","how","when","where"], answer:1 }, // << corrected --> how
+  { q: "for 3 years — ضع أداة الاستفهام المناسبة:", choices:["why","how","how long","how many"], answer:2 },
+  { q: "because — ضع أداة الاستفهام المناسبة:", choices:["where","when","what","why"], answer:3 }
+];
+
+let current = 0;
+const total = questions.length;
+const qContainer = document.getElementById('qContainer');
+const progBar = document.getElementById('progBar');
+const currentNum = document.getElementById('currentNum');
+const totalNum = document.getElementById('totalNum');
+const prevBtn = document.getElementById('prevBtn');
+const nextBtn = document.getElementById('nextBtn');
+const resultBox = document.getElementById('resultBox');
+totalNum.textContent = total;
+
+/* Audio (WebAudio) */
+let audioCtx = null;
+function ensureAudio(){ if(!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)(); }
+function playTone(freq1,freq2,d){
+  try{
+    if(!audioCtx) ensureAudio();
+    const o1 = audioCtx.createOscillator(), o2 = audioCtx.createOscillator(), g = audioCtx.createGain();
+    o1.type='sine'; o2.type='sine'; o1.frequency.value=freq1; o2.frequency.value=freq2;
+    o1.connect(g); o2.connect(g); g.connect(audioCtx.destination);
+    g.gain.setValueAtTime(0.014, audioCtx.currentTime);
+    o1.start(); o2.start();
+    g.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + d);
+    setTimeout(()=>{ try{ o1.stop(); o2.stop(); }catch(e){} }, d*1000);
+  }catch(e){}
+}
+function clickFx(){ playTone(520,640,0.06); }      // when choose option
+function navFx(){ playTone(600,720,0.08); }       // when click next/prev
+function successFx(){ playTone(880,1200,0.45); }   // final success
+function failFx(){ playTone(300,220,0.45); }      // final fail
+
+/* store answers */
+const userAnswers = new Array(total).fill(null);
+
+/* render question (one at a time) */
+function renderQuestion(i){
+  qContainer.innerHTML = '';
+  const item = questions[i];
+  const wrap = document.createElement('div');
+  wrap.className = 'question slide-in';
+  const qhtml = document.createElement('div');
+  qhtml.innerHTML = `<div class="qtext">${i+1}. ${item.q}</div>`;
+  const choices = document.createElement('div'); choices.className = 'choices';
+  item.choices.forEach((c,j)=>{
+    const lab = document.createElement('label'); lab.className = 'choice';
+    const inp = document.createElement('input'); inp.type='radio'; inp.name='q'+i; inp.value=j;
+    if(userAnswers[i] !== null && Number(userAnswers[i]) === j) inp.checked = true;
+    inp.addEventListener('change', ()=>{
+      userAnswers[i] = Number(inp.value);
+      try{ clickFx(); }catch(e){}
+      updateProgress();
+    });
+    lab.appendChild(inp);
+    lab.appendChild(document.createTextNode(' ' + c));
+    choices.appendChild(lab);
+  });
+  wrap.appendChild(qhtml);
+  wrap.appendChild(choices);
+  qContainer.appendChild(wrap);
+  currentNum.textContent = i+1;
+  progBar.style.width = Math.round((i/total)*100) + '%';
+  if(i === total-1) nextBtn.textContent = 'إرسال وتصحيح'; else nextBtn.textContent = 'التالي';
+}
+
+/* navigation */
+prevBtn.addEventListener('click', ()=>{
+  if(current>0){
+    navFx(); // sound on nav
+    const node = qContainer.firstElementChild;
+    if(node){ node.classList.add('slide-out-left'); setTimeout(()=>{ current--; renderQuestion(current); },260); }
+    else { current--; renderQuestion(current); }
+  }
+});
+nextBtn.addEventListener('click', ()=>{
+  if(current < total-1){
+    navFx(); // sound on nav
+    const node = qContainer.firstElementChild;
+    if(node){ node.classList.add('slide-out-left'); setTimeout(()=>{ current++; renderQuestion(current); },260); }
+    else { current++; renderQuestion(current); }
+  } else {
+    submitAnswers();
+  }
+});
+
+function updateProgress(){
+  let answered = userAnswers.filter(x=>x!==null).length;
+  progBar.style.width = Math.round((answered/total)*100) + '%';
+}
+
+/* submit & scoring with "كلام موزون" */
+function submitAnswers(){
+  let score = 0;
+  for(let i=0;i<total;i++){
+    if(userAnswers[i] !== null && Number(userAnswers[i]) === questions[i].answer) score++;
+  }
+  let phrase = '';
+  if(score === total) phrase = '🎯 ممتاز — أداء متقن';
+  else if(score >= Math.ceil(total*0.7)) phrase = '🌟 جيد — استمر بهذا المستوى';
+  else if(score >= Math.ceil(total*0.4)) phrase = '🌱 متوسط — يحتاج مراجعة بسيطة';
+  else phrase = '🔁 ضعيف — نرجع نراجع سويًا';
+  resultBox.style.display = 'block';
+  resultBox.innerHTML = `<div style="font-weight:900;font-size:18px">درجتك: ${score} / ${total}</div>
+    <div style="margin-top:8px;font-size:16px;color:var(--muted)">${phrase}</div>
+    <div style="margin-top:10px;color:var(--muted)">تم إنهاء الاختبار ✅</div>
+    <div style="margin-top:12px"><button class="btn" id="retryBtn">🔁 إعادة المحاولة</button></div>`;
+  if(score === total) try{ successFx(); }catch(e){}
+  else if(score <= total-2) try{ failFx(); }catch(e){}
+  else try{ clickFx(); }catch(e){}
+  // details
+  const detail = document.createElement('div'); detail.style.marginTop='12px';
+  questions.forEach((it, idx)=>{
+    const ok = (userAnswers[idx] !== null && Number(userAnswers[idx]) === it.answer);
+    const block = document.createElement('div');
+    block.className = 'question ' + (ok ? 'correct' : 'incorrect');
+    block.style.marginTop = '8px';
+    block.innerHTML = `<div style="font-weight:800">${idx+1}. ${it.q}</div>
+      <div style="margin-top:6px">إجابتك: <strong>${userAnswers[idx] !== null ? it.choices[userAnswers[idx]] : '(بدون إجابة)'}</strong>
+      — الإجابة الصحيحة: <strong>${it.choices[it.answer]}</strong></div>`;
+    detail.appendChild(block);
+  });
+  resultBox.appendChild(detail);
+  const retry = document.getElementById('retryBtn');
+  retry && retry.addEventListener('click', resetQuiz);
+}
+
+/* reset */
+function resetQuiz(){
+  for(let i=0;i<total;i++) userAnswers[i]=null;
+  resultBox.style.display='none';
+  current = 0;
+  renderQuestion(current);
+  updateProgress();
+}
+
+/* ====== Starter: guarantee Start button works reliably ====== */
+window._requestedStart = false;
+function appStart(){
+  window._requestedStart = true;
+  // hide splash quickly & show container
+  const splash = document.getElementById('splash'); if(splash) splash.style.display='none';
+  const container = document.querySelector('.container'); if(container) container.style.visibility='visible';
+  // resume audio after user gesture
+  try{ ensureAudio(); if(audioCtx.state === 'suspended') audioCtx.resume(); }catch(e){}
+  try{ startApp(); }catch(e){}
+}
+
+/* main initializer (called after start gesture) */
+function startApp(){
+  try{ ensureAudio(); }catch(e){}
+  const quizApp = document.getElementById('quizApp'); quizApp && quizApp.setAttribute('aria-hidden','false');
+  renderQuestion(current);
+  updateProgress();
+}
+
+/* if user clicked start before script load */
+if(window._requestedStart) try{ startApp(); }catch(e){}
+</script>
+</body>
+</html>
