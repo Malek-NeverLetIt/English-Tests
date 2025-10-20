@@ -4,103 +4,22 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Never Let It | Tests</title>
-  <style>
-    * {margin:0; padding:0; box-sizing:border-box; font-family: Poppins, sans-serif;}
-    body {
-      background: #111;
-      color: white;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
-      flex-direction: column;
-      overflow: hidden;
-    }
-    .splash {
-      position: fixed;
-      top:0; left:0;
-      width:100%; height:100%;
-      background:#111;
-      display:flex;
-      flex-direction:column;
-      align-items:center;
-      justify-content:center;
-      transition: opacity 1s ease;
-      z-index:10;
-    }
-    .splash.hide { opacity:0; pointer-events:none; }
-    .splash img {
-      width:180px; height:180px;
-      border-radius:50%;
-      object-fit:cover;
-      margin-bottom:15px;
-      border:3px solid white;
-    }
-    .splash h1 {
-      font-size:24px;
-      letter-spacing:2px;
-      font-weight:600;
-    }
-    .container {
-      display:none;
-      flex-direction:column;
-      align-items:center;
-      text-align:center;
-    }
-    .show {display:flex;}
-    input, button, select {
-      margin:8px;
-      padding:10px 15px;
-      border-radius:8px;
-      border:none;
-      font-size:16px;
-      outline:none;
-    }
-    button {
-      background:#00aaff;
-      color:white;
-      cursor:pointer;
-      transition:0.3s;
-    }
-    button:hover {background:#0077cc;}
-    .top {
-      position:fixed;
-      top:10px; left:10px;
-      font-size:18px;
-    }
-    .tests {
-      margin-top:100px;
-      display:flex;
-      flex-direction:column;
-      gap:10px;
-    }
-    .bottom {
-      position:fixed;
-      bottom:20px;
-      left:0; right:0;
-      text-align:center;
-      font-size:18px;
-    }
-  </style>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <!-- Splash Screen -->
+  <!-- Splash -->
   <div class="splash" id="splash">
     <img src="Exampfp.png" alt="Exam Logo">
     <h1>Never Let It</h1>
   </div>
 
-  <!-- Request / Login Container -->
+  <!-- Register/Login -->
   <div class="container" id="loginContainer">
     <h2>Enter Your Info</h2>
     <input type="text" id="phone" placeholder="Enter Phone Number"><br>
     <input type="text" id="name" placeholder="Enter Name"><br>
     <button id="sendReq">Send Request</button>
-    <p id="waitMsg" style="display:none;">Waiting for approval...</p>
-    <div id="passwordSection" style="display:none;">
-      <input type="text" id="password" placeholder="Enter Password"><br>
-      <button id="loginBtn">Login</button>
-    </div>
+    <p id="infoMsg"></p>
   </div>
 
   <!-- Main Page -->
@@ -112,90 +31,6 @@
     <button id="startBtn" style="display:none;">Start Test</button>
   </div>
 
-  <script>
-    const splash = document.getElementById('splash');
-    const loginContainer = document.getElementById('loginContainer');
-    const mainContainer = document.getElementById('mainContainer');
-    const usernameDisplay = document.getElementById('usernameDisplay');
-    const testsList = document.getElementById('testsList');
-    const selectedTestText = document.getElementById('selectedTestText');
-    const startBtn = document.getElementById('startBtn');
-    const tests = [
-      "English-Test-Quick-Week-Test_2.html",
-      "English-Test-Unit_1.html",
-      "English_TestQ1.html",
-      "English_TestQ2.html",
-      "English_TestQ3.html"
-    ];
-
-    let selectedTest = "";
-    let user = JSON.parse(localStorage.getItem('examUser'));
-
-    // Splash fade + check user
-    setTimeout(() => {
-      splash.classList.add('hide');
-      setTimeout(() => {
-        if(user) {
-          openMain(user);
-        } else {
-          loginContainer.classList.add('show');
-        }
-      }, 1000);
-    }, 2500);
-
-    // Handle request
-    document.getElementById('sendReq').onclick = () => {
-      const name = document.getElementById('name').value.trim();
-      const phone = document.getElementById('phone').value.trim();
-      if(!name || !phone) return alert("Please fill all fields.");
-      document.getElementById('waitMsg').style.display = "block";
-
-      // Simulate bot auto-accept
-      setTimeout(() => {
-        const pass = "NL" + Math.floor(1000 + Math.random() * 9000);
-        document.getElementById('waitMsg').innerText = 
-          "Accepted ✅ Your password: " + pass;
-        document.getElementById('passwordSection').style.display = "block";
-        localStorage.setItem('tempPass', pass);
-        localStorage.setItem('tempUser', JSON.stringify({name, phone}));
-      }, 2000);
-    };
-
-    // Login check
-    document.getElementById('loginBtn').onclick = () => {
-      const entered = document.getElementById('password').value.trim();
-      const pass = localStorage.getItem('tempPass');
-      if(entered === pass) {
-        const u = JSON.parse(localStorage.getItem('tempUser'));
-        user = {name: u.name, phone: u.phone, password: pass};
-        localStorage.setItem('examUser', JSON.stringify(user));
-        loginContainer.classList.remove('show');
-        openMain(user);
-      } else {
-        alert("Wrong password!");
-      }
-    };
-
-    // Main page
-    function openMain(user) {
-      usernameDisplay.innerText = user.name;
-      mainContainer.classList.add('show');
-      tests.forEach(test => {
-        const btn = document.createElement('button');
-        btn.innerText = test.replace('.html','');
-        btn.onclick = () => {
-          selectedTest = test;
-          selectedTestText.innerText = "Selected: " + test;
-          startBtn.style.display = "inline-block";
-        };
-        testsList.appendChild(btn);
-      });
-    }
-
-    startBtn.onclick = () => {
-      if(!selectedTest) return;
-      window.location.href = "https://malek-neverletit.github.io/English-Tests/" + selectedTest;
-    };
-  </script>
+  <script type="module" src="script.js"></script>
 </body>
 </html>
