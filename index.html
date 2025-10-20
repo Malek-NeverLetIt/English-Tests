@@ -1,103 +1,87 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Never Let It | English Tests</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Never Let It — Tests</title>
   <style>
-    body {
-      margin: 0;
-      font-family: "Poppins", sans-serif;
-      background: #f4f4f4;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      flex-direction: column;
-    }
-
-    #splash {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: #000;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column;
-      color: white;
-      font-size: 24px;
-      z-index: 1000;
-      transition: opacity 1s ease;
-    }
-
-    #splash img {
-      width: 150px;
-      height: 150px;
-      border-radius: 50%;
-      margin-bottom: 15px;
-      border: 3px solid white;
-    }
-
-    #auth-section {
-      display: none;
-      text-align: center;
-      background: white;
-      padding: 20px;
-      border-radius: 20px;
-      box-shadow: 0 0 15px rgba(0,0,0,0.2);
-    }
-
-    input {
-      padding: 10px;
-      border-radius: 10px;
-      border: 1px solid #ccc;
-      width: 250px;
-      margin: 5px 0;
-    }
-
-    button {
-      padding: 10px 20px;
-      border: none;
-      background: #007bff;
-      color: white;
-      border-radius: 10px;
-      cursor: pointer;
-      margin-top: 10px;
-    }
-
-    #recaptcha-container {
-      margin-top: 15px;
-      margin-bottom: 15px;
-    }
+    :root{--bg:#0b0f16;--card:#0f1724;--accent:#00aaff}
+    html,body{height:100%;margin:0;font-family:Inter,system-ui,Arial,sans-serif;background:linear-gradient(180deg,#071127 0%, #0b0f16 100%);color:#fff}
+    .center{display:flex;align-items:center;justify-content:center;height:100%}
+    /* Splash */
+    #splash{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#071127;z-index:50;transition:opacity .9s}
+    #splash.hide{opacity:0;pointer-events:none}
+    #splash img{width:170px;height:170px;border-radius:50%;object-fit:cover;border:3px solid rgba(255,255,255,0.08);box-shadow:0 10px 30px rgba(0,0,0,0.6)}
+    #splash h1{margin-top:14px;font-size:22px;letter-spacing:2px;color:#e6eefb}
+    /* app */
+    .app{display:none;align-items:center;justify-content:center;padding:24px}
+    .card{width:520px;max-width:94vw;background:rgba(255,255,255,0.03);padding:18px;border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,0.6);backdrop-filter:blur(6px)}
+    .row{display:flex;gap:8px;align-items:center}
+    label{display:block;margin-top:10px;color:#bcd1ea;font-size:13px}
+    input{width:100%;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.06);background:transparent;color:#fff}
+    button{padding:10px 14px;border-radius:8px;border:none;background:var(--accent);color:#001;cursor:pointer;font-weight:700}
+    .muted{color:#9fb0d6;font-size:13px}
+    .hidden{display:none}
+    .top-left{position:fixed;left:18px;top:16px;color:#cfe7ff;font-weight:700}
+    .tests-list{margin-top:14px;display:flex;flex-direction:column;gap:8px}
+    .tests-list button{background:rgba(255,255,255,0.03);color:#dff; text-align:left;}
+    .selected-name{position:fixed;left:0;right:0;bottom:70px;text-align:center;font-weight:700}
+    .start-wrap{position:fixed;left:0;right:0;bottom:18px;text-align:center}
+    a.link{color:#cfe7ff}
   </style>
 </head>
 <body>
-  <!-- Splash Screen -->
+  <!-- Splash -->
   <div id="splash">
-    <img src="Exampfp.png" alt="Logo" />
-    <div>Never Let It</div>
+    <img src="Exampfp.png" alt="logo" id="splashImg">
+    <h1>Never Let It</h1>
   </div>
 
-  <!-- Auth Section -->
-  <div id="auth-section">
-    <h2>📱 Verify your phone number</h2>
-    <input id="name" type="text" placeholder="Enter your name"><br>
-    <input id="phone" type="text" placeholder="+201234567890"><br>
-    <div id="recaptcha-container"></div>
-    <button id="sendBtn" onclick="sendCode()">Send Code</button>
+  <!-- App -->
+  <div class="center app" id="app">
+    <div class="card" id="mainCard">
+      <!-- Register / Login -->
+      <div id="registerStep">
+        <h2>Enter phone number & name</h2>
+        <label>Phone number (include country code, e.g. +2010...)</label>
+        <input id="phoneInput" placeholder="+2010..." />
+        <label>Name</label>
+        <input id="nameInput" placeholder="Your name" />
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px">
+          <div class="muted">We will auto-generate a password and log you in.</div>
+          <button id="sendReqBtn">Send Request</button>
+        </div>
+        <p id="regMsg" class="muted" style="margin-top:10px"></p>
+      </div>
 
-    <div id="verify-section" style="display:none; margin-top:20px;">
-      <input id="code" type="text" placeholder="Enter verification code"><br>
-      <button onclick="verifyCode()">Verify</button>
+      <!-- Dashboard -->
+      <div id="dashboard" class="hidden">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <div>
+            <div id="welcome" style="font-size:18px;font-weight:800"></div>
+            <div class="muted" style="font-size:13px;margin-top:4px">Select a test to start</div>
+          </div>
+          <div style="text-align:right">
+            <div class="muted">Signed in as</div>
+            <div id="phoneShow" style="font-weight:700"></div>
+          </div>
+        </div>
+
+        <div class="tests-list" id="testsList"></div>
+      </div>
     </div>
   </div>
 
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-    import { getDatabase, ref, set, get, child } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
-    import { getAuth, RecaptchaVerifier, signInWithPhoneNumber } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+  <div class="top-left hidden" id="topLeftName"></div>
+  <div class="selected-name" id="selectedName">No test selected</div>
+  <div class="start-wrap"><button id="startBtn" class="hidden">Start Test</button></div>
 
+  <script type="module">
+    // Firebase imports
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-app.js";
+    import { getDatabase, ref, get, set, child } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-database.js";
+
+    // ----- CONFIG -----
     const firebaseConfig = {
       apiKey: "AIzaSyBhSo8fGRmeP7aYKmvAdpPgpGjJnnBAiWA",
       authDomain: "neverletit-tests.firebaseapp.com",
@@ -109,85 +93,158 @@
       measurementId: "G-EM5K1JF85L"
     };
 
+    const GITHUB_BASE = 'https://malek-neverletit.github.io/English-Tests/';
+const TEST_FILES = [
+  "English-Test-Quick-Week-Test_2.html",
+  "English-Test-Unit_1.html",
+  "English_TestQ1.html",
+  "English_TestQ2.html",
+  "English_TestQ3.html",
+  "English-Test-Unit_3-Lesson_1.html",
+];
+    // ------------------
+
     const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
     const db = getDatabase(app);
 
-    // Splash fade
-    window.onload = () => {
-      setTimeout(() => {
-        document.getElementById("splash").style.opacity = 0;
-        setTimeout(() => {
-          document.getElementById("splash").style.display = "none";
-          document.getElementById("auth-section").style.display = "block";
-        }, 1000);
-      }, 2000);
-    };
+    // UI refs
+    const splash = document.getElementById('splash');
+    const appWrap = document.getElementById('app');
+    const registerStep = document.getElementById('registerStep');
+    const dashboard = document.getElementById('dashboard');
+    const sendReqBtn = document.getElementById('sendReqBtn');
+    const phoneInput = document.getElementById('phoneInput');
+    const nameInput = document.getElementById('nameInput');
+    const regMsg = document.getElementById('regMsg');
+    const welcome = document.getElementById('welcome');
+    const phoneShow = document.getElementById('phoneShow');
+    const testsList = document.getElementById('testsList');
+    const selectedName = document.getElementById('selectedName');
+    const startBtn = document.getElementById('startBtn');
+    const topLeftName = document.getElementById('topLeftName');
 
-    // reCAPTCHA setup
-    window.recaptchaVerifier = new RecaptchaVerifier(auth, "recaptcha-container", {
-      size: "normal",
-      callback: (response) => {
-        console.log("reCAPTCHA verified");
-      },
-      "expired-callback": () => {
-        alert("reCAPTCHA expired, please verify again");
-      }
+    let selectedTest = '';
+    let currentUser = JSON.parse(localStorage.getItem('examUser') || 'null');
+
+    // Splash hide then show app
+    window.addEventListener('load', ()=>{
+      setTimeout(()=>{ splash.classList.add('hide'); setTimeout(()=>{ splash.style.display='none'; appWrap.style.display='flex'; },900); },1700);
     });
 
-    // Send Code
-    window.sendCode = async function() {
-      const name = document.getElementById("name").value.trim();
-      const phoneNumber = document.getElementById("phone").value.trim();
-      if (!name || !phoneNumber.startsWith("+")) {
-        alert("Please fill your name and full phone number (+20...)");
-        return;
-      }
+    // Helper: normalize phone to key (digits only)
+    function phoneKey(p){
+      return (p || '').toString().replace(/\D/g,'');
+    }
 
+    // Check duplicates: returns {dup:true, reason:'name'|'phone'|'both'} or {dup:false}
+    async function checkDuplicate(name, phone){
       const dbRef = ref(db);
-      const snapshot = await get(child(dbRef, "users/" + phoneNumber.replace(/\+/g, "")));
-      if (snapshot.exists()) {
-        alert("This phone number is already registered!");
-        return;
+      const snap = await get(child(dbRef, 'users'));
+      if(!snap.exists()) return {dup:false};
+      const users = snap.val();
+      let nameTaken=false, phoneTaken=false;
+      for(const key in users){
+        const u = users[key];
+        if(!u) continue;
+        if(u.name && u.name.toLowerCase() === (name||'').toLowerCase()) nameTaken = true;
+        if(u.phone && phoneKey(u.phone) === phoneKey(phone)) phoneTaken = true;
       }
+      if(nameTaken || phoneTaken) return {dup:true, reason: nameTaken && phoneTaken ? 'both' : (nameTaken ? 'name':'phone')};
+      return {dup:false};
+    }
 
-      const appVerifier = window.recaptchaVerifier;
-      signInWithPhoneNumber(auth, phoneNumber, appVerifier)
-        .then((confirmationResult) => {
-          window.confirmationResult = confirmationResult;
-          alert("✅ Code sent! Check your SMS.");
-          document.getElementById("verify-section").style.display = "block";
-        })
-        .catch((error) => {
-          alert("❌ " + error.message);
-        });
+    // Generate password
+    function genPassword(len=6){
+      const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnpqrstuvwxyz23456789';
+      let out = '';
+      for(let i=0;i<len;i++) out += chars[Math.floor(Math.random()*chars.length)];
+      return out;
+    }
+
+    // Register button click
+    sendReqBtn.onclick = async ()=>{
+      regMsg.textContent = '';
+      const name = nameInput.value.trim();
+      const phone = phoneInput.value.trim();
+      if(!name || !phone){ regMsg.textContent = 'Fill both fields'; return; }
+      if(!/^\+?\d{7,}$/.test(phone)){ regMsg.textContent = 'Enter valid phone with country code'; return; }
+
+      // check duplicates
+      regMsg.textContent = 'Checking...';
+      try{
+        const dup = await checkDuplicate(name, phone);
+        if(dup.dup){
+          regMsg.textContent = '❌ Name or phone already taken';
+          return;
+        }
+        // ok -> create password and save user under /users/{phoneKey}
+        const password = genPassword(7);
+        const userObj = { name, phone, password, createdAt: Date.now() };
+        const pk = phoneKey(phone);
+        await set(ref(db, 'users/' + pk), userObj);
+
+        // store locally and auto-login
+        localStorage.setItem('examUser', JSON.stringify(userObj));
+        currentUser = userObj;
+        regMsg.textContent = '✅ Registered. Logging in...';
+        setTimeout(()=> openDashboard(userObj),800);
+      }catch(err){
+        console.error(err);
+        regMsg.textContent = 'Error connecting to database';
+      }
     };
 
-    // Verify Code
-    window.verifyCode = function() {
-      const code = document.getElementById("code").value;
-      const name = document.getElementById("name").value.trim();
-      const phoneNumber = document.getElementById("phone").value.trim();
+    // Open dashboard
+    function openDashboard(user){
+      registerStep.classList.add('hidden');
+      dashboard.classList.remove('hidden');
+      welcome.textContent = `Welcome, ${user.name}!`;
+      phoneShow.textContent = user.phone;
+      topLeftName.textContent = user.name;
+      topLeftName.classList.remove('hidden');
 
-      confirmationResult.confirm(code)
-        .then((result) => {
-          const user = result.user;
-          const phoneKey = phoneNumber.replace(/\+/g, "");
+      // build tests list
+      testsList.innerHTML = '';
+      TEST_FILES.forEach(file=>{
+        const btn = document.createElement('button');
+        btn.textContent = file.replace('.html','');
+        btn.onclick = ()=>{
+          selectedTest = file;
+          selectedName.textContent = `Selected test: ${file}`;
+          startBtn.classList.remove('hidden');
+        };
+        testsList.appendChild(btn);
+      });
+    }
 
-          // Save user info
-          set(ref(db, "users/" + phoneKey), {
-            name: name,
-            phone: phoneNumber,
-            uid: user.uid,
-            verified: true
-          });
+    // Auto-login if localStorage has user; but verify existence in DB
+    (async function tryAutoLogin(){
+      if(!currentUser) return;
+      // check db user exists
+      try{
+        const pk = phoneKey(currentUser.phone);
+        const snap = await get(ref(db, 'users/' + pk));
+        if(snap.exists()){
+          const u = snap.val();
+          currentUser = u;
+          localStorage.setItem('examUser', JSON.stringify(u));
+          openDashboard(u);
+          return;
+        } else {
+          // user missing in DB: clear local and show register
+          localStorage.removeItem('examUser');
+          currentUser = null;
+        }
+      }catch(e){
+        console.error('auto login check failed', e);
+      }
+    })();
 
-          alert("✅ Verified and saved successfully! Welcome " + name + "!");
-          window.location.href = "https://malek-neverletit.github.io/English-Tests/";
-        })
-        .catch((error) => {
-          alert("❌ Invalid code: " + error.message);
-        });
+    // Start button
+    startBtn.onclick = ()=>{
+      if(!selectedTest) return alert('Select a test first');
+      const url = GITHUB_BASE + selectedTest;
+      window.open(url, '_blank');
     };
   </script>
 </body>
