@@ -1,228 +1,201 @@
-<!doctype html>
-<html lang="ar" dir="rtl">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>اختبار اللغة الانجليزية — الصف الثالث الإعدادي | الأسبوع الأول</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Never Let It | Tests</title>
   <style>
-    :root{
-      --bg-1:#0f1720;
-      --bg-2:#10262b;
-      --card:#0f1b20;
-      --accent:#2b7b73;
-      --accent-2:#7fbfc0;
-      --muted:#9fb3b3;
-      --glass: rgba(255,255,255,0.03);
+    * {margin:0; padding:0; box-sizing:border-box; font-family: Poppins, sans-serif;}
+    body {
+      background: #111;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      flex-direction: column;
+      overflow: hidden;
     }
-    *{box-sizing:border-box}
-    html,body{height:100%;margin:0;font-family:'Segoe UI',Tahoma, system-ui, 'Noto Kufi Arabic', sans-serif;background:linear-gradient(180deg,var(--bg-1),var(--bg-2));color:#eef6f4}
-    .app{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
-
-    /* SPLASH */
-    .splash{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:linear-gradient(180deg,rgba(6,12,18,0.92),rgba(6,12,18,0.96));z-index:80;flex-direction:column;gap:12px;padding:18px}
-    .splashCard{width:100%;max-width:720px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-radius:14px;padding:24px;text-align:center;box-shadow:0 20px 60px rgba(3,8,12,0.7);transform:translateY(0);animation:fadeInUp .6s ease}
-    @keyframes fadeInUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
-    .splashTitle{font-weight:900;font-size:22px;letter-spacing:0.6px;line-height:1.1;color:var(--accent-2)}
-    .splashSub{color:var(--muted);margin-top:6px;font-size:13px}
-    .splashDev{color:var(--muted);font-size:12px;margin-top:10px}
-    .startBtn{margin-top:14px;padding:12px 20px;border-radius:999px;border:none;background:linear-gradient(90deg,var(--accent),var(--accent-2));color:#012;font-weight:900;cursor:pointer;font-size:16px;box-shadow:0 14px 40px rgba(43,123,115,0.18);transition:transform .12s ease}
-    .startBtn:active{transform:translateY(2px)}
-
-    /* main */
-    .container{width:100%;max-width:920px;margin:0 auto}
-    header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px}
-    .titleBlock{text-align:right}
-    h1{margin:0;font-size:20px;font-weight:800}
-    .dev{font-size:12px;color:var(--muted);margin-top:6px}
-
-    .card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));padding:16px;border-radius:12px;box-shadow:0 8px 30px rgba(1,6,10,0.45)}
-
-    .controlsRow{display:flex;gap:8px;align-items:center}
-    .btn{padding:9px 12px;border-radius:10px;border:none;background:linear-gradient(90deg,var(--accent),var(--accent-2));color:#012;font-weight:800;cursor:pointer;box-shadow:0 10px 28px rgba(2,8,10,0.25);transition:transform .12s ease}
-    .btn.ghost{background:transparent;border:1px solid rgba(255,255,255,0.04);color:var(--muted)}
-    .btn:active{transform:translateY(2px)}
-
-    .question{margin:12px 0;padding:12px;border-radius:10px;background:linear-gradient(90deg, rgba(255,255,255,0.01), rgba(255,255,255,0.008));transition:transform .26s cubic-bezier(.2,.9,.2,1)}
-    .qtext{font-weight:800;margin-bottom:8px;font-size:15px}
-    .choices{display:flex;flex-direction:column;gap:8px}
-    label.choice{display:flex;align-items:center;gap:12px;padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,0.03);cursor:pointer;transition:background .18s ease,transform .12s}
-    label.choice:hover{transform:translateX(-6px);background:rgba(255,255,255,0.01)}
-    input[type="radio"]{width:18px;height:18px}
-
-    .progress{height:10px;background:rgba(255,255,255,0.03);border-radius:999px;overflow:hidden;margin-bottom:10px}
-    .progress > i{display:block;height:100%;background:linear-gradient(90deg,var(--accent),var(--accent-2));width:0%;transition:width .6s ease}
-
-    .result{margin-top:12px;padding:12px;border-radius:10px;background:linear-gradient(180deg, rgba(2,8,15,0.5), rgba(3,10,18,0.3));border:1px solid rgba(255,255,255,0.02)}
-
-    .soundToggle{display:flex;align-items:center;gap:8px;padding:6px 10px;border-radius:999px;background:rgba(255,255,255,0.02);font-size:13px;color:var(--muted)}
-
-    footer{margin-top:14px;text-align:center;color:var(--muted);font-size:12px}
-
-    @media (max-width:520px){h1{font-size:17px}.splashTitle{font-size:18px}.startBtn{font-size:15px}}
+    .splash {
+      position: fixed;
+      top:0; left:0;
+      width:100%; height:100%;
+      background:#111;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      transition: opacity 1s ease;
+      z-index:10;
+    }
+    .splash.hide { opacity:0; pointer-events:none; }
+    .splash img {
+      width:180px; height:180px;
+      border-radius:50%;
+      object-fit:cover;
+      margin-bottom:15px;
+      border:3px solid white;
+    }
+    .splash h1 {
+      font-size:24px;
+      letter-spacing:2px;
+      font-weight:600;
+    }
+    .container {
+      display:none;
+      flex-direction:column;
+      align-items:center;
+      text-align:center;
+    }
+    .show {display:flex;}
+    input, button, select {
+      margin:8px;
+      padding:10px 15px;
+      border-radius:8px;
+      border:none;
+      font-size:16px;
+      outline:none;
+    }
+    button {
+      background:#00aaff;
+      color:white;
+      cursor:pointer;
+      transition:0.3s;
+    }
+    button:hover {background:#0077cc;}
+    .top {
+      position:fixed;
+      top:10px; left:10px;
+      font-size:18px;
+    }
+    .tests {
+      margin-top:100px;
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+    }
+    .bottom {
+      position:fixed;
+      bottom:20px;
+      left:0; right:0;
+      text-align:center;
+      font-size:18px;
+    }
   </style>
 </head>
 <body>
-  <!-- SPLASH -->
+  <!-- Splash Screen -->
   <div class="splash" id="splash">
-    <div class="splashCard" role="dialog" aria-labelledby="splashTitle">
-      <div id="splashTitle" class="splashTitle">اختبار اللغة الانجليزية — الصف الثالث الإعدادي | الأسبوع الأول</div>
-      <div class="splashSub">مراجعة قصيرة جاهزة للطالب — اضغط ابدأ للبدء بالاختبار</div>
-      <div class="splashDev">المطور: مالك</div>
-      <button id="startBtn" class="startBtn" aria-label="ابدأ">ابدأ</button>
+    <img src="Exampfp.png" alt="Exam Logo">
+    <h1>Never Let It</h1>
+  </div>
+
+  <!-- Request / Login Container -->
+  <div class="container" id="loginContainer">
+    <h2>Enter Your Info</h2>
+    <input type="text" id="phone" placeholder="Enter Phone Number"><br>
+    <input type="text" id="name" placeholder="Enter Name"><br>
+    <button id="sendReq">Send Request</button>
+    <p id="waitMsg" style="display:none;">Waiting for approval...</p>
+    <div id="passwordSection" style="display:none;">
+      <input type="text" id="password" placeholder="Enter Password"><br>
+      <button id="loginBtn">Login</button>
     </div>
   </div>
 
-  <div class="app">
-    <div class="container">
-      <header>
-        <div class="titleBlock">
-          <h1>مراجعة قصيرة — الأسبوع الأول</h1>
-          <div class="dev">اللغة الإنجليزية — الصف الثالث الإعدادي</div>
-        </div>
-        <div class="controlsRow">
-          <div class="soundToggle" id="soundToggle">
-            <span id="soundIcon">🔔</span>
-            <span class="small">الأصوات: </span>
-            <button id="muteBtn" class="btn ghost" style="padding:6px 10px">إيقاف</button>
-          </div>
-          <button id="clearBtn" class="btn">إعادة البداية</button>
-        </div>
-      </header>
-
-      <div class="card" id="quizCard">
-        <div class="progress"><i id="progBar"></i></div>
-        <div id="qList"></div>
-
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px">
-          <div>
-            <button class="btn" id="prevBtn">السابق</button>
-            <button class="btn" id="nextBtn">التالي</button>
-          </div>
-          <div class="small">سؤال <span id="currentNum">0</span> / <span id="totalNum">0</span></div>
-        </div>
-
-        <div id="endControls" class="hidden" style="margin-top:12px;display:flex;gap:8px;justify-content:flex-end;align-items:center">
-          <button class="btn" id="submitBtn">إرسال وتصحيح</button>
-        </div>
-
-        <div id="resultArea" class="result hidden" role="status"></div>
-      </div>
-
-      <footer>بالتوفيق! ✨</footer>
-    </div>
+  <!-- Main Page -->
+  <div class="container" id="mainContainer">
+    <div class="top" id="usernameDisplay"></div>
+    <h2 id="selectText">Select a Test</h2>
+    <div class="tests" id="testsList"></div>
+    <div class="bottom" id="selectedTestText">No test selected</div>
+    <button id="startBtn" style="display:none;">Start Test</button>
   </div>
 
-<script>
-/* ====== DATA ====== */
-const questions = [
-  {type:'mc', q:'ما معنى كلمة Fit؟', choices:['شكل','مناسب','قيمة','هوية'], answer:1},
-  {type:'mc', q:'ما معنى كلمة Identity؟', choices:['هوية','خلفية','قيمة','اكتشاف'], answer:0},
-  {type:'mc', q:'ما معنى كلمة Value؟', choices:['غريب','قيمة','اعتقاد','فريد'], answer:1},
-  {type:'mc', q:'عكس كلمة Inside؟', choices:['Outside','Easy','Hard','Relaxed'], answer:0},
-  {type:'mc', q:'ما مرادف كلمة Strong؟', choices:['ضعيف','قوة','قوي','راحة'], answer:2},
-  {type:'mc', q:'ما عكس كلمة Worried؟', choices:['Stressed','Relaxed','Important','Strange'], answer:1},
-  {type:'mc', q:'اختر الكلمة الصحيحة: I ____ studied English since 2020.', choices:['have','has','had','having'], answer:0},
-  {type:'mc', q:'اختر الكلمة الصحيحة: She ____ studied.', choices:['have','has','had','having'], answer:1},
-  {type:'mc', q:'اختر صيغة الماضي من كلمة Play.', choices:['Plays','Playing','Played','Play'], answer:2},
-  {type:'mc', q:'اختر صيغة التصريف الثالث (Past Participle) من كلمة Eat.', choices:['Eated','Eaten','Eating','Eat'], answer:1},
-  {type:'mc', q:'اختر: Soha ____ cooked food.', choices:['have','has','been','by'], answer:1},
-  {type:'mc', q:'اختر: Food has been cooked ____ Soha.', choices:['has','by','been','with'], answer:1}
-];
+  <script>
+    const splash = document.getElementById('splash');
+    const loginContainer = document.getElementById('loginContainer');
+    const mainContainer = document.getElementById('mainContainer');
+    const usernameDisplay = document.getElementById('usernameDisplay');
+    const testsList = document.getElementById('testsList');
+    const selectedTestText = document.getElementById('selectedTestText');
+    const startBtn = document.getElementById('startBtn');
+    const tests = [
+      "English-Test-Quick-Week-Test_2.html",
+      "English-Test-Unit_1.html",
+      "English_TestQ1.html",
+      "English_TestQ2.html",
+      "English_TestQ3.html"
+    ];
 
-/* ====== audio ====== */
-let audioCtx; let soundsEnabled = true;
-function ensureAudio(){ if(!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)(); }
-function playClick(){ if(!soundsEnabled) return; try{ ensureAudio(); const o = audioCtx.createOscillator(); const g = audioCtx.createGain(); o.type='sine'; o.frequency.value = 540; g.gain.value = 0.0008; o.connect(g); g.connect(audioCtx.destination); o.start(); g.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 0.08); setTimeout(()=>{o.stop()},100); }catch(e){} }
-function playChime(){ if(!soundsEnabled) return; try{ ensureAudio(); const o = audioCtx.createOscillator(); const o2 = audioCtx.createOscillator(); const g = audioCtx.createGain(); o.type='sine'; o2.type='sine'; o.frequency.value=660; o2.frequency.value=880; g.gain.value=0.0012; o.connect(g); o2.connect(g); g.connect(audioCtx.destination); o.start(); o2.start(); g.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 0.5); setTimeout(()=>{o.stop(); o2.stop();},520); }catch(e){} }
+    let selectedTest = "";
+    let user = JSON.parse(localStorage.getItem('examUser'));
 
-/* ====== UI logic ====== */
-let current = 0; const total = questions.length;
-const qList = document.getElementById('qList');
-const currentNum = document.getElementById('currentNum');
-const totalNum = document.getElementById('totalNum');
-const progBar = document.getElementById('progBar');
-const prevBtn = document.getElementById('prevBtn');
-const nextBtn = document.getElementById('nextBtn');
-const submitBtn = document.getElementById('submitBtn');
-const endControls = document.getElementById('endControls');
-const resultArea = document.getElementById('resultArea');
-const splash = document.getElementById('splash');
-const startBtn = document.getElementById('startBtn');
-const clearBtn = document.getElementById('clearBtn');
-const muteBtn = document.getElementById('muteBtn');
-const soundIcon = document.getElementById('soundIcon');
+    // Splash fade + check user
+    setTimeout(() => {
+      splash.classList.add('hide');
+      setTimeout(() => {
+        if(user) {
+          openMain(user);
+        } else {
+          loginContainer.classList.add('show');
+        }
+      }, 1000);
+    }, 2500);
 
-function renderQuestion(index){
-  qList.innerHTML='';
-  const item = questions[index];
-  const wrapper = document.createElement('div'); wrapper.className='question';
-  const qtxt = document.createElement('div'); qtxt.className='qtext'; qtxt.textContent = (index+1)+'. '+item.q;
-  wrapper.appendChild(qtxt);
-  const choices = document.createElement('div'); choices.className='choices';
-  item.choices.forEach((c, i)=>{
-    const id = `q${index}_c${i}`;
-    const lab = document.createElement('label'); lab.className='choice';
-    const inp = document.createElement('input'); inp.type = 'radio';
-    inp.name = 'q'+index; inp.value = i; inp.id = id;
-    const saved = localStorage.getItem('quiz_ans_'+index);
-    if(saved && Number(saved)===i) inp.checked=true;
-    inp.addEventListener('change', ()=>{ localStorage.setItem('quiz_ans_'+index, i); playClick(); animateChoice(lab); updateProgress(); });
-    const span = document.createElement('span'); span.textContent = c;
-    lab.appendChild(inp); lab.appendChild(span); choices.appendChild(lab);
-  });
-  wrapper.appendChild(choices);
-  qList.appendChild(wrapper);
-  currentNum.textContent = index+1; totalNum.textContent = total;
-  progBar.style.width = Math.round(((index)/total)*100)+'%';
-  if(index === total-1) endControls.classList.remove('hidden'); else endControls.classList.add('hidden');
-}
+    // Handle request
+    document.getElementById('sendReq').onclick = () => {
+      const name = document.getElementById('name').value.trim();
+      const phone = document.getElementById('phone').value.trim();
+      if(!name || !phone) return alert("Please fill all fields.");
+      document.getElementById('waitMsg').style.display = "block";
 
-function animateChoice(el){ el.style.transform='translateX(-6px)'; setTimeout(()=> el.style.transform='',260); }
-function saveCurrentAnswers(index){ const r = document.querySelector('input[name="q'+index+'"]:checked'); if(r) localStorage.setItem('quiz_ans_'+index, r.value); }
-prevBtn.addEventListener('click', ()=>{ saveCurrentAnswers(current); if(current>0){ current--; renderQuestion(current);} });
-nextBtn.addEventListener('click', ()=>{ saveCurrentAnswers(current); if(current<total-1){ current++; renderQuestion(current);} });
+      // Simulate bot auto-accept
+      setTimeout(() => {
+        const pass = "NL" + Math.floor(1000 + Math.random() * 9000);
+        document.getElementById('waitMsg').innerText = 
+          "Accepted ✅ Your password: " + pass;
+        document.getElementById('passwordSection').style.display = "block";
+        localStorage.setItem('tempPass', pass);
+        localStorage.setItem('tempUser', JSON.stringify({name, phone}));
+      }, 2000);
+    };
 
-submitBtn.addEventListener('click', ()=>{
-  saveCurrentAnswers(current);
-  let score = 0; let out = '';
-  for(let i=0;i<questions.length;i++){
-    const ans = localStorage.getItem('quiz_ans_'+i);
-    const ok = ans!==null && Number(ans)===questions[i].answer;
-    if(ok) score++;
-    out += `<div style="padding:8px;border-top:1px solid rgba(255,255,255,0.03);cursor:pointer" onclick="(function(){current=${i};renderQuestion(${i});window.scrollTo({top:0,behavior:'smooth'})})()">${ok? '✅':'❌'} سؤال ${i+1}: ${questions[i].q} <div class='small'>الإجابة الصحيحة: ${formatAnswer(questions[i])}</div></div>`;
-  }
-  resultArea.classList.remove('hidden'); resultArea.innerHTML = `<div style="font-weight:900;font-size:18px">درجتك: ${score}/${questions.length}</div><div class='small' style='margin-top:8px'>اضغط على أي سؤال للعودة إليه.</div><div style='margin-top:10px'>${out}</div>`;
-  playChime();
-});
+    // Login check
+    document.getElementById('loginBtn').onclick = () => {
+      const entered = document.getElementById('password').value.trim();
+      const pass = localStorage.getItem('tempPass');
+      if(entered === pass) {
+        const u = JSON.parse(localStorage.getItem('tempUser'));
+        user = {name: u.name, phone: u.phone, password: pass};
+        localStorage.setItem('examUser', JSON.stringify(user));
+        loginContainer.classList.remove('show');
+        openMain(user);
+      } else {
+        alert("Wrong password!");
+      }
+    };
 
-function formatAnswer(q){ return q.choices[q.answer] ?? q.answer; }
+    // Main page
+    function openMain(user) {
+      usernameDisplay.innerText = user.name;
+      mainContainer.classList.add('show');
+      tests.forEach(test => {
+        const btn = document.createElement('button');
+        btn.innerText = test.replace('.html','');
+        btn.onclick = () => {
+          selectedTest = test;
+          selectedTestText.innerText = "Selected: " + test;
+          startBtn.style.display = "inline-block";
+        };
+        testsList.appendChild(btn);
+      });
+    }
 
-/* SPLASH */
-startBtn.addEventListener('click', ()=>{
-  try{ ensureAudio(); }catch(e){}
-  playChime();
-  splash.style.display='none';
-  renderQuestion(current);
-  updateProgress();
-  window.scrollTo({top:0,behavior:'smooth'});
-});
-
-/* clear */
-clearBtn.addEventListener('click', ()=>{
-  if(confirm('هل تريد إعادة البداية ومسح كل الإجابات؟')){
-    for(let i=0;i<questions.length;i++) localStorage.removeItem('quiz_ans_'+i);
-    current = 0; resultArea.classList.add('hidden'); renderQuestion(current); updateProgress(); splash.style.display='flex'; playClick();
-  }
-});
-
-/* sound toggle */
-muteBtn.addEventListener('click', ()=>{
-  soundsEnabled = !soundsEnabled; muteBtn.textContent = soundsEnabled? 'إيقاف' : 'تشغيل'; soundIcon.textContent = soundsEnabled? '🔔' : '🔕'; playClick();
-});
-
-function updateProgress(){ const answered = questions.filter((_,i)=> localStorage.getItem('quiz_ans_'+i)!=null).length; progBar.style.width = Math.round((answered/total)*100) + '%'; }
-
-(function(){ totalNum.textContent = total; renderQuestion(current); updateProgress(); })();
-</script>
+    startBtn.onclick = () => {
+      if(!selectedTest) return;
+      window.location.href = "https://malek-neverletit.github.io/English-Tests/" + selectedTest;
+    };
+  </script>
 </body>
 </html>
