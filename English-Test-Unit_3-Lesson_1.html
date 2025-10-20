@@ -1,0 +1,331 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>اختبار اللغة الإنجليزية — الصف الثالث الإعدادي ( أهم كلمات الدرس الأول الوحدة 3 )</title>
+<style>
+:root{
+  --bg1:#efe9e0;     /* soft beige background */
+  --card:#f6f1ec;    /* card slightly lighter */
+  --accent:#b8872f;  /* warm gold */
+  --accent-2:#d4b57a;/* light gold */
+  --metal:#5a4636;   /* deep brown (text) */
+  --muted:#8b7b6d;
+  --glass: rgba(255,255,255,0.6);
+  --success:#86efac;
+  --error:#fecaca;
+  --shadow: rgba(25,20,18,0.08);
+}
+*{box-sizing:border-box;font-family:"Segoe UI","Noto Kufi Arabic",Tahoma,system-ui,-apple-system}
+html,body{height:100%;margin:0;background:linear-gradient(180deg,var(--bg1),#efe5da);color:var(--metal);-webkit-font-smoothing:antialiased}
+.app-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:28px}
+
+/* SPLASH */
+.splash{
+  position:fixed;inset:0;display:flex;align-items:center;justify-content:center;z-index:90;
+  background:linear-gradient(180deg, rgba(10,8,6,0.08), rgba(10,8,6,0.12));
+}
+.splashCard{
+  width:100%;max-width:820px;padding:28px;border-radius:14px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.85), rgba(255,255,255,0.92));
+  border:1px solid rgba(90,70,54,0.08); box-shadow:0 20px 60px var(--shadow); text-align:center;
+}
+.titleMain{font-weight:900;font-size:20px;color:var(--metal);margin:6px 0}
+.titleSub{font-size:14px;color:var(--muted);margin:6px 0}
+.readyBox{
+  margin:16px auto;padding:18px;border-radius:12px;background:linear-gradient(90deg, rgba(255,255,255,0.98), rgba(250,246,241,0.98));
+  border:1px solid rgba(90,70,54,0.04);min-width:300px;
+  box-shadow:0 8px 30px rgba(90,70,54,0.04);
+}
+.readyWord{font-size:34px;font-weight:900;color:var(--accent);margin-bottom:6px}
+.smallMuted{font-size:13px;color:var(--muted)}
+
+/* button */
+.btn{
+  display:inline-block;padding:12px 20px;border-radius:12px;border:none;font-weight:800;cursor:pointer;
+  color:#fff; background:linear-gradient(90deg,var(--accent),var(--accent-2));
+  box-shadow:0 10px 30px rgba(184,135,47,0.12); transition:transform .14s,box-shadow .14s;
+}
+.btn:hover{box-shadow:0 14px 40px rgba(184,135,47,0.16)}
+.btn:active{transform:translateY(2px)}
+
+/* APP */
+.container{width:100%;max-width:920px;margin:0 auto;visibility:hidden}
+.header{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+.h-left{text-align:right}
+.h-left h1{margin:0;font-size:18px;font-weight:900;color:var(--metal)}
+.h-left .meta{font-size:13px;color:var(--muted);margin-top:6px}
+.card{
+  background: linear-gradient(180deg,var(--card), #fff);
+  border-radius:14px;padding:18px;border:1px solid rgba(90,70,54,0.04);
+  box-shadow:0 18px 40px var(--shadow);
+}
+
+/* question */
+.progress{height:10px;background:#efe7dc;border-radius:999px;overflow:hidden;margin-bottom:12px}
+.progress > i{display:block;height:100%;background:linear-gradient(90deg,var(--accent),var(--accent-2));width:0%;transition:width .45s ease}
+.qBox{padding:14px;border-radius:12px;background:linear-gradient(90deg, rgba(255,255,255,0.98), rgba(255,255,255,0.99));transition:transform .28s,opacity .28s}
+.qtext{font-weight:900;margin-bottom:12px;font-size:16px;color:var(--metal)}
+.choices{display:flex;flex-direction:column;gap:10px}
+label.choice{
+  display:flex;align-items:center;gap:12px;padding:12px;border-radius:10px;border:1px solid rgba(90,70,54,0.06);
+  cursor:pointer;background:linear-gradient(180deg, rgba(255,255,255,0.98), rgba(250,246,241,0.98));
+}
+label.choice:hover{background:linear-gradient(180deg, rgba(255,249,240,1), rgba(255,249,240,1))}
+input[type="radio"]{accent-color:var(--accent)}
+
+/* controls */
+.controls{display:flex;justify-content:space-between;align-items:center;margin-top:14px}
+.small{font-size:13px;color:var(--muted)}
+.result{margin-top:12px;padding:14px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.98), rgba(250,246,241,0.98));border:1px solid rgba(90,70,54,0.04);display:none}
+
+/* feedback highlight */
+.correct{background:linear-gradient(90deg, rgba(134,239,172,0.12), rgba(255,255,255,0.9));border-color:rgba(34,197,94,0.12)}
+.incorrect{background:linear-gradient(90deg, rgba(254,202,202,0.08), rgba(255,255,255,0.9));border-color:rgba(239,68,68,0.10)}
+
+/* slide animations */
+.slide-in{animation:slideIn .36s ease forwards}
+.slide-out-left{animation:slideOutLeft .28s ease forwards}
+@keyframes slideIn{from{opacity:0;transform:translateX(12px)}to{opacity:1;transform:none}}
+@keyframes slideOutLeft{to{opacity:0;transform:translateX(-12px)}}
+
+/* responsive */
+@media (max-width:600px){
+  .splashCard{padding:18px}
+  .qtext{font-size:15px}
+  .btn{padding:10px 14px}
+}
+</style>
+</head>
+<body>
+
+<!-- SPLASH -->
+<div class="splash" id="splash">
+  <div class="splashCard" role="dialog" aria-labelledby="mainTitle">
+    <div id="mainTitle" class="titleMain">اختبار اللغة الإنجليزية — الصف الثالث الإعدادي ( أهم كلمات الدرس الأول الوحدة 3 )</div>
+    <div class="titleSub">بإشراف: أ.باسم | تصميم: مالك</div>
+
+    <div class="readyBox">      
+      <div class="smallMuted">اضغط ابدأ عندما تكون جاهزًا للمراجعة</div>
+      <div style="margin-top:12px">
+        <button id="startBtn" class="btn" onclick="appStart()">ابدأ</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- APP -->
+<div class="app-wrap">
+  <div class="container" id="quizApp" aria-hidden="true">
+    <div class="header">
+      <div class="h-left">
+        <h1>اختبار اللغة الإنجليزية — الصف الثالث الإعدادي ( أهم كلمات الدرس الأول الوحدة 3 )</h1>
+        <div class="meta">بإشراف: أ.باسم | تصميم: مالك</div>
+      </div>
+    </div>
+
+    <div class="card" id="card">
+      <div class="progress" aria-hidden="true"><i id="progBar"></i></div>
+
+      <div id="qContainer"></div>
+
+      <div class="controls">
+        <button class="btn" id="prevBtn">السابق</button>
+        <div class="small">سؤال <span id="currentNum">0</span> / <span id="totalNum">0</span></div>
+        <button class="btn" id="nextBtn">التالي</button>
+      </div>
+
+      <div id="resultBox" class="result" role="status"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ===== DATA: أسئلة شاملة مستخلصة من كلمات الدرس (حوالي 18 سؤال) ===== */
+const questions = [
+  { q: 'ما معنى "Artificial intelligence"؟', choices:['ذكاء اصطناعي','قوة ميكانيكية','آلة حديثة','مادة صناعية'], answer:0 },
+  { q: 'عكس كلمه "Artificial" هو؟', choices:['intelligence','natural','unreal','true'], answer:1 },
+  { q: 'كلمة "robot" تعني؟', choices:['انسان آلى','فكرة','سلوك','مهمة'], answer:0 },
+  { q: 'ما مرادف "smart"؟', choices:['stupid','intelligent','hard','slow'], answer:1 },
+  { q: 'عكس "smart" هو؟', choices:['clever','wise','stupid','intelligent'], answer:2 },
+  { q: 'كلمة "humane" تعني؟', choices:['إنساني','آلي','قوي','صارم'], answer:0 },
+  { q: 'عكس "expensive" أو "costly" هو؟', choices:['cheap','rare','hard','small'], answer:0 },
+  { q: 'مرادف "simple" هو؟', choices:['easy','hard','expensive','slow'], answer:0 },
+  { q: 'مرادف "allow" هو؟', choices:['let','stop','refuse','delay'], answer:0 },
+  { q: 'عكس "simple" هو؟', choices:['easy','hard','soft','cheap'], answer:1 },
+  { q: 'ما معنى "robotics"؟', choices:['آلى','علم الإنسان','علم الإدراك','علم الكلام'], answer:0 },
+  { q: 'ما معنى "task"؟', choices:['مهمة','شعور','حد','قلم'], answer:0 },
+  { q: 'ما معنى "allow" هنا؟', choices:['يسمح','يمنع','ينهي','يتجاهل'], answer:0 },
+  { q: 'أي عبارة تعني "make decision"؟', choices:['اتخاذ قرار','حل مشكلة','بناء حاسوب','عرض مهمة'], answer:0 },
+  { q: 'كلمة "behavior" معناها؟', choices:['سلوك','سعر','حد','قيمة'], answer:0 },
+  { q: 'ماذا يعني "basic" أو "main"؟', choices:['أساسي','صغير','شائع','ثانوي'], answer:0 },
+  { q: 'أي كلمة تعني "يحل مشكله"؟', choices:['solve problem','make decision','support','limit'], answer:0 },
+  { q: 'ما معنى "limit / limited"؟', choices:['حد / محدود','غير واضح','شائع','مفتوح'], answer:0 },
+  { q: 'أي كلمة تشير إلى "emotions"؟', choices:['مشاعر او عواطف','مهام','سلوك','حد'], answer:0 },
+  { q: 'كلمة "human(s)" تعني؟', choices:['إنس / بشر','آلة','شبكة','مفهوم'], answer:0 },
+  { q: 'ماذا يعني "castly او expensive"؟', choices:['غالي','رخيص','محدود','صغير'], answer:0 },
+  { q: 'مرادف "improve" في الاختيارات هو؟', choices:['develop','break','listen','sleep'], answer:0 },
+  { q: 'علاقة "advanced" هي الأقرب إلى؟', choices:['developed','simple','cheap','soft'], answer:0 }
+];
+
+let current = 0;
+const total = questions.length;
+const qContainer = document.getElementById('qContainer');
+const progBar = document.getElementById('progBar');
+const currentNum = document.getElementById('currentNum');
+const totalNum = document.getElementById('totalNum');
+const prevBtn = document.getElementById('prevBtn');
+const nextBtn = document.getElementById('nextBtn');
+const resultBox = document.getElementById('resultBox');
+totalNum.textContent = total;
+
+/* WebAudio for polished sounds */
+let audioCtx = null;
+function ensureAudio(){ if(!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)(); }
+function playTone(f1,f2,d){
+  try{
+    if(!audioCtx) ensureAudio();
+    const o1 = audioCtx.createOscillator(), o2 = audioCtx.createOscillator(), g = audioCtx.createGain();
+    o1.type='sine'; o2.type='sine';
+    o1.frequency.value = f1; o2.frequency.value = f2;
+    o1.connect(g); o2.connect(g); g.connect(audioCtx.destination);
+    g.gain.setValueAtTime(0.012, audioCtx.currentTime);
+    o1.start(); o2.start();
+    g.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + d);
+    setTimeout(()=>{ try{ o1.stop(); o2.stop(); }catch(e){} }, d*1000);
+  }catch(e){}
+}
+function clickFx(){ playTone(520,640,0.06); }      // option select
+function navFx(){ playTone(620,760,0.07); }       // next/prev
+function successFx(){ playTone(880,1200,0.45); }   // perfect
+function failFx(){ playTone(300,220,0.45); }      // poor
+
+/* store answers */
+const userAnswers = new Array(total).fill(null);
+
+/* render question one-by-one */
+function renderQuestion(i){
+  qContainer.innerHTML = '';
+  const item = questions[i];
+  const wrap = document.createElement('div');
+  wrap.className = 'qBox slide-in';
+  wrap.innerHTML = `<div class="qtext">${i+1}. ${item.q}</div>`;
+  const choices = document.createElement('div'); choices.className = 'choices';
+  item.choices.forEach((c,j)=>{
+    const lab = document.createElement('label'); lab.className = 'choice';
+    const inp = document.createElement('input'); inp.type='radio'; inp.name='q'+i; inp.value=j;
+    if(userAnswers[i] !== null && Number(userAnswers[i]) === j) inp.checked = true;
+    inp.addEventListener('change', ()=>{
+      userAnswers[i] = Number(inp.value);
+      try{ clickFx(); }catch(e){}
+      updateProgress();
+    });
+    lab.appendChild(inp);
+    lab.appendChild(document.createTextNode(' ' + c));
+    choices.appendChild(lab);
+  });
+  wrap.appendChild(choices);
+  qContainer.appendChild(wrap);
+  currentNum.textContent = i+1;
+  progBar.style.width = Math.round((i/total)*100) + '%';
+  nextBtn.textContent = (i === total-1) ? 'إرسال وتصحيح' : 'التالي';
+}
+
+/* navigation */
+prevBtn.addEventListener('click', ()=>{
+  if(current>0){
+    try{ navFx(); }catch(e){}
+    const node = qContainer.firstElementChild;
+    if(node){ node.classList.add('slide-out-left'); setTimeout(()=>{ current--; renderQuestion(current); },260); }
+    else { current--; renderQuestion(current); }
+  }
+});
+nextBtn.addEventListener('click', ()=>{
+  if(current < total-1){
+    try{ navFx(); }catch(e){}
+    const node = qContainer.firstElementChild;
+    if(node){ node.classList.add('slide-out-left'); setTimeout(()=>{ current++; renderQuestion(current); },260); }
+    else { current++; renderQuestion(current); }
+  } else {
+    submitAnswers();
+  }
+});
+
+function updateProgress(){
+  let answered = userAnswers.filter(x=>x!==null).length;
+  progBar.style.width = Math.round((answered/total)*100) + '%';
+}
+
+/* submit & result (balanced wording) */
+function submitAnswers(){
+  let score = 0;
+  for(let i=0;i<total;i++){
+    if(userAnswers[i] !== null && Number(userAnswers[i]) === questions[i].answer) score++;
+  }
+  // balanced phrase
+  let phrase = '';
+  if(score === total) phrase = '🎯 ممتاز — حفظ متقن للكلمات';
+  else if(score >= Math.ceil(total*0.75)) phrase = '🌟 جيد جدًا — حفظ قوي';
+  else if(score >= Math.ceil(total*0.5)) phrase = '🌱 متوسط — يحتاج مراجعة';
+  else phrase = '🔁 ضعيف — لنراجع معًا من جديد';
+  resultBox.style.display = 'block';
+  resultBox.innerHTML = `<div style="font-weight:900;font-size:18px">درجتك: ${score} / ${total}</div>
+    <div style="margin-top:8px;font-size:16px;color:var(--muted)">${phrase}</div>
+    <div style="margin-top:10px;color:var(--muted)">تم إنهاء الاختبار ✅</div>
+    <div style="margin-top:12px"><button class="btn" id="retryBtn">🔁 إعادة المحاولة</button></div>`;
+  // play result sound
+  if(score === total) try{ successFx(); }catch(e){}
+  else if(score <= Math.ceil(total*0.4)) try{ failFx(); }catch(e){}
+  else try{ clickFx(); }catch(e){}
+  // show details
+  const detail = document.createElement('div'); detail.style.marginTop='12px';
+  questions.forEach((it, idx)=>{
+    const ok = (userAnswers[idx] !== null && Number(userAnswers[idx]) === it.answer);
+    const block = document.createElement('div');
+    block.className = 'qBox ' + (ok ? 'correct' : 'incorrect');
+    block.style.marginTop = '10px';
+    block.innerHTML = `<div style="font-weight:800">${idx+1}. ${it.q}</div>
+      <div style="margin-top:6px">إجابتك: <strong>${userAnswers[idx] !== null ? it.choices[userAnswers[idx]] : '(بدون إجابة)'}</strong>
+      — الإجابة الصحيحة: <strong>${it.choices[it.answer]}</strong></div>`;
+    detail.appendChild(block);
+  });
+  resultBox.appendChild(detail);
+  const retry = document.getElementById('retryBtn');
+  retry && retry.addEventListener('click', resetQuiz);
+}
+
+/* reset */
+function resetQuiz(){
+  for(let i=0;i<total;i++) userAnswers[i]=null;
+  resultBox.style.display='none';
+  current = 0;
+  renderQuestion(current);
+  updateProgress();
+}
+
+/* STARTER: ensure Start button works */
+window._requestedStart = false;
+function appStart(){
+  window._requestedStart = true;
+  // hide splash quickly & show container
+  const splash = document.getElementById('splash'); if(splash) splash.style.display='none';
+  const container = document.querySelector('.container'); if(container) container.style.visibility='visible';
+  // resume audio context
+  try{ ensureAudio(); if(audioCtx.state === 'suspended') audioCtx.resume(); }catch(e){}
+  try{ startApp(); }catch(e){}
+}
+
+/* initialize after start */
+function startApp(){
+  try{ ensureAudio(); }catch(e){}
+  const quizApp = document.getElementById('quizApp'); quizApp && quizApp.setAttribute('aria-hidden','false');
+  renderQuestion(current);
+  updateProgress();
+}
+
+/* if clicked early */
+if(window._requestedStart) try{ startApp(); }catch(e){}
+</script>
+</body>
+</html>
