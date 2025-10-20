@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Never Let It | Admin Panel</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body {background:#0b0b0b; color:white;}
+    table {
+      border-collapse:collapse;
+      width:90%;
+      margin:60px auto;
+      background:#1a1a1a;
+      border-radius:10px;
+      overflow:hidden;
+    }
+    th, td {
+      padding:10px 15px;
+      border-bottom:1px solid #333;
+      text-align:left;
+    }
+    th {background:#0077cc;}
+    tr:hover {background:#222;}
+    #loginBox {
+      display:flex; flex-direction:column; align-items:center; justify-content:center;
+      height:100vh;
+    }
+    #loginBox input {
+      margin:8px; padding:10px 15px; border:none; border-radius:8px; font-size:16px;
+    }
+    #loginBox button {
+      background:#00aaff; color:white; border:none; padding:10px 20px; border-radius:8px; cursor:pointer;
+    }
+    #logoutBtn {position:fixed; top:20px; right:20px; background:#cc0000;}
+  </style>
+</head>
+<body>
+
+  <div id="loginBox">
+    <h2>Admin Login</h2>
+    <input type="password" id="adminPass" placeholder="Enter Admin Password">
+    <button id="adminLoginBtn">Login</button>
+    <p id="msg"></p>
+  </div>
+
+  <div id="panel" style="display:none;">
+    <h2 style="text-align:center;margin-top:40px;">📋 Registered Users</h2>
+    <button id="logoutBtn">Logout</button>
+    <table>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Name</th>
+          <th>Phone</th>
+          <th>Password</th>
+        </tr>
+      </thead>
+      <tbody id="usersTable"></tbody>
+    </table>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-app.js";
+    import { getDatabase, ref, get, child } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-database.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyBhSo8fGRmeP7aYKmvAdpPgpGjJnnBAiWA",
+      authDomain: "neverletit-tests.firebaseapp.com",
+      databaseURL: "https://neverletit-tests-default-rtdb.firebaseio.com",
+      projectId: "neverletit-tests",
+      storageBucket: "neverletit-tests.firebasestorage.app",
+      messagingSenderId: "82469623469",
+      appId: "1:82469623469:web:0398dd21a66018da101824",
+      measurementId: "G-EM5K1JF85L"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+
+    const adminPassInput = document.getElementById('adminPass');
+    const adminLoginBtn = document.getElementById('adminLoginBtn');
+    const msg = document.getElementById('msg');
+    const loginBox = document.getElementById('loginBox');
+    const panel = document.getElementById('panel');
+    const usersTable = document.getElementById('usersTable');
+    const logoutBtn = document.getElementById('logoutBtn');
+
+    const ADMIN_PASSWORD = "NLadmin2025";
+
+    if(localStorage.getItem("adminAuth") === "true") {
+      showPanel();
+    }
+
+    adminLoginBtn.onclick = () => {
+      const entered = adminPassInput.value.trim();
+      if(entered === ADMIN_PASSWORD) {
+        localStorage.setItem("adminAuth","true");
+        showPanel();
+      } else {
+        msg.innerText = "❌ Incorrect password!";
+      }
+    };
+
+    logoutBtn.onclick = () => {
+      localStorage.removeItem("adminAuth");
+      location.reload();
+    };
+
+    async function showPanel() {
+      loginBox.style.display = "none";
+      panel.style.display = "block";
+
+      const dbRef = ref(db);
+      const snapshot = await get(child(dbRef, `users`));
+      if(snapshot.exists()) {
+        const data = snapshot.val();
+        usersTable.innerHTML = "";
+        let i=1;
+        for(const key in data) {
+          const u = data[key];
+          usersTable.innerHTML += `
+            <tr>
+              <td>${i++}</td>
+              <td>${u.name}</td>
+              <td>${u.phone}</td>
+              <td>${u.password}</td>
+            </tr>`;
+        }
+      } else {
+        usersTable.innerHTML = "<tr><td colspan='4'>No users found</td></tr>";
+      }
+    }
+  </script>
+
+</body>
+</html>
