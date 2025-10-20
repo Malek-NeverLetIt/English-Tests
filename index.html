@@ -3,34 +3,192 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Never Let It | Tests</title>
-  <link rel="stylesheet" href="style.css" />
+  <title>Never Let It | English Tests</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: "Poppins", sans-serif;
+      background: #f4f4f4;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      flex-direction: column;
+    }
+
+    #splash {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: #000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      color: white;
+      font-size: 24px;
+      z-index: 1000;
+      transition: opacity 1s ease;
+    }
+
+    #splash img {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      margin-bottom: 15px;
+      border: 3px solid white;
+    }
+
+    #auth-section {
+      display: none;
+      text-align: center;
+      background: white;
+      padding: 20px;
+      border-radius: 20px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.2);
+    }
+
+    input {
+      padding: 10px;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+      width: 250px;
+      margin: 5px 0;
+    }
+
+    button {
+      padding: 10px 20px;
+      border: none;
+      background: #007bff;
+      color: white;
+      border-radius: 10px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    #recaptcha-container {
+      margin-top: 15px;
+      margin-bottom: 15px;
+    }
+  </style>
 </head>
 <body>
-  <!-- Splash -->
-  <div class="splash" id="splash">
-    <img src="Exampfp.png" alt="Exam Logo">
-    <h1>Never Let It</h1>
+  <!-- Splash Screen -->
+  <div id="splash">
+    <img src="Exampfp.png" alt="Logo" />
+    <div>Never Let It</div>
   </div>
 
-  <!-- Register/Login -->
-  <div class="container" id="loginContainer">
-    <h2>Enter Your Info</h2>
-    <input type="text" id="phone" placeholder="Enter Phone Number"><br>
-    <input type="text" id="name" placeholder="Enter Name"><br>
-    <button id="sendReq">Send Request</button>
-    <p id="infoMsg"></p>
+  <!-- Auth Section -->
+  <div id="auth-section">
+    <h2>📱 Verify your phone number</h2>
+    <input id="name" type="text" placeholder="Enter your name"><br>
+    <input id="phone" type="text" placeholder="+201234567890"><br>
+    <div id="recaptcha-container"></div>
+    <button id="sendBtn" onclick="sendCode()">Send Code</button>
+
+    <div id="verify-section" style="display:none; margin-top:20px;">
+      <input id="code" type="text" placeholder="Enter verification code"><br>
+      <button onclick="verifyCode()">Verify</button>
+    </div>
   </div>
 
-  <!-- Main Page -->
-  <div class="container" id="mainContainer">
-    <div class="top" id="usernameDisplay"></div>
-    <h2 id="selectText">Select a Test</h2>
-    <div class="tests" id="testsList"></div>
-    <div class="bottom" id="selectedTestText">No test selected</div>
-    <button id="startBtn" style="display:none;">Start Test</button>
-  </div>
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import { getDatabase, ref, set, get, child } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+    import { getAuth, RecaptchaVerifier, signInWithPhoneNumber } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
-  <script type="module" src="script.js"></script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyBhSo8fGRmeP7aYKmvAdpPgpGjJnnBAiWA",
+      authDomain: "neverletit-tests.firebaseapp.com",
+      databaseURL: "https://neverletit-tests-default-rtdb.firebaseio.com",
+      projectId: "neverletit-tests",
+      storageBucket: "neverletit-tests.firebasestorage.app",
+      messagingSenderId: "82469623469",
+      appId: "1:82469623469:web:0398dd21a66018da101824",
+      measurementId: "G-EM5K1JF85L"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getDatabase(app);
+
+    // Splash fade
+    window.onload = () => {
+      setTimeout(() => {
+        document.getElementById("splash").style.opacity = 0;
+        setTimeout(() => {
+          document.getElementById("splash").style.display = "none";
+          document.getElementById("auth-section").style.display = "block";
+        }, 1000);
+      }, 2000);
+    };
+
+    // reCAPTCHA setup
+    window.recaptchaVerifier = new RecaptchaVerifier(auth, "recaptcha-container", {
+      size: "normal",
+      callback: (response) => {
+        console.log("reCAPTCHA verified");
+      },
+      "expired-callback": () => {
+        alert("reCAPTCHA expired, please verify again");
+      }
+    });
+
+    // Send Code
+    window.sendCode = async function() {
+      const name = document.getElementById("name").value.trim();
+      const phoneNumber = document.getElementById("phone").value.trim();
+      if (!name || !phoneNumber.startsWith("+")) {
+        alert("Please fill your name and full phone number (+20...)");
+        return;
+      }
+
+      const dbRef = ref(db);
+      const snapshot = await get(child(dbRef, "users/" + phoneNumber.replace(/\+/g, "")));
+      if (snapshot.exists()) {
+        alert("This phone number is already registered!");
+        return;
+      }
+
+      const appVerifier = window.recaptchaVerifier;
+      signInWithPhoneNumber(auth, phoneNumber, appVerifier)
+        .then((confirmationResult) => {
+          window.confirmationResult = confirmationResult;
+          alert("✅ Code sent! Check your SMS.");
+          document.getElementById("verify-section").style.display = "block";
+        })
+        .catch((error) => {
+          alert("❌ " + error.message);
+        });
+    };
+
+    // Verify Code
+    window.verifyCode = function() {
+      const code = document.getElementById("code").value;
+      const name = document.getElementById("name").value.trim();
+      const phoneNumber = document.getElementById("phone").value.trim();
+
+      confirmationResult.confirm(code)
+        .then((result) => {
+          const user = result.user;
+          const phoneKey = phoneNumber.replace(/\+/g, "");
+
+          // Save user info
+          set(ref(db, "users/" + phoneKey), {
+            name: name,
+            phone: phoneNumber,
+            uid: user.uid,
+            verified: true
+          });
+
+          alert("✅ Verified and saved successfully! Welcome " + name + "!");
+          window.location.href = "https://malek-neverletit.github.io/English-Tests/";
+        })
+        .catch((error) => {
+          alert("❌ Invalid code: " + error.message);
+        });
+    };
+  </script>
 </body>
 </html>

@@ -1,5 +1,7 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-app.js";
-import { getDatabase, ref, get, set, child } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-database.js";
+// script.js
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getDatabase, ref, set, get, child } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+import { getAuth, RecaptchaVerifier, signInWithPhoneNumber } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyBhSo8fGRmeP7aYKmvAdpPgpGjJnnBAiWA",
@@ -13,77 +15,82 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
 const db = getDatabase(app);
 
-const splash = document.getElementById('splash');
-const loginContainer = document.getElementById('loginContainer');
-const mainContainer = document.getElementById('mainContainer');
-const usernameDisplay = document.getElementById('usernameDisplay');
-const testsList = document.getElementById('testsList');
-const selectedTestText = document.getElementById('selectedTestText');
-const startBtn = document.getElementById('startBtn');
-const infoMsg = document.getElementById('infoMsg');
-const tests = [
-  "English-Test-Quick-Week-Test_2.html",
-  "English-Test-Unit_1.html",
-  "English_TestQ1.html",
-  "English_TestQ2.html",
-  "English_TestQ3.html"
-];
-
-let selectedTest = "";
-let user = JSON.parse(localStorage.getItem('examUser'));
-
-// Splash fade and check
-setTimeout(() => {
-  splash.classList.add('hide');
+// Splash fade
+window.onload = () => {
   setTimeout(() => {
-    if(user) openMain(user);
-    else loginContainer.classList.add('show');
-  }, 1000);
-}, 2500);
-
-// Register button
-document.getElementById('sendReq').onclick = async () => {
-  const name = document.getElementById('name').value.trim();
-  const phone = document.getElementById('phone').value.trim();
-  if(!name || !phone) return alert("Please fill all fields.");
-
-  const dbRef = ref(db);
-  const snapshot = await get(child(dbRef, `users`));
-  let data = snapshot.exists() ? snapshot.val() : {};
-  let exists = Object.values(data).some(u => u.name === name || u.phone === phone);
-
-  if(exists) {
-    infoMsg.innerText = "❌ Username or phone number already taken.";
-  } else {
-    const pass = "NL" + Math.floor(1000 + Math.random() * 9000);
-    const userObj = {name, phone, password: pass};
-    await set(ref(db, `users/${phone}`), userObj);
-    infoMsg.innerText = `✅ Approved! Your password: ${pass}`;
-    localStorage.setItem('examUser', JSON.stringify(userObj));
-    setTimeout(() => openMain(userObj), 2000);
-  }
+    document.getElementById("splash").style.opacity = 0;
+    setTimeout(() => {
+      document.getElementById("splash").style.display = "none";
+      document.getElementById("auth-section").style.display = "block";
+    }, 1000);
+  }, 2000);
 };
 
-// Main page
-function openMain(user) {
-  loginContainer.classList.remove('show');
-  usernameDisplay.innerText = user.name;
-  mainContainer.classList.add('show');
-  tests.forEach(test => {
-    const btn = document.createElement('button');
-    btn.innerText = test.replace('.html','');
-    btn.onclick = () => {
-      selectedTest = test;
-      selectedTestText.innerText = "Selected: " + test;
-      startBtn.style.display = "inline-block";
-    };
-    testsList.appendChild(btn);
-  });
-}
+// reCAPTCHA setup
+window.recaptchaVerifier = new RecaptchaVerifier(auth, "recaptcha-container", {
+  size: "normal",
+  callback: (response) => {
+    console.log("reCAPTCHA verified");
+  },
+  "expired-callback": () => {
+    alert("reCAPTCHA expired, please verify again");
+  }
+});
 
-startBtn.onclick = () => {
-  if(!selectedTest) return;
-  window.location.href = "https://malek-neverletit.github.io/English-Tests/" + selectedTest;
+// Send Code
+window.sendCode = async function() {
+  const name = document.getElementById("name").value.trim();
+  const phoneNumber = document.getElementById("phone").value.trim();
+  if (!name || !phoneNumber.startsWith("+")) {
+    alert("Please fill your name and full phone number (+20...)");
+    return;
+  }
+
+  const dbRef = ref(db);
+  const snapshot = await get(child(dbRef, "users/" + phoneNumber.replace(/\+/g, "")));
+  if (snapshot.exists()) {
+    alert("This phone number is already registered!");
+    return;
+  }
+
+  const appVerifier = window.recaptchaVerifier;
+  signInWithPhoneNumber(auth, phoneNumber, appVerifier)
+    .then((confirmationResult) => {
+      window.confirmationResult = confirmationResult;
+      alert("✅ Code sent! Check your SMS.");
+      document.getElementById("verify-section").style.display = "block";
+    })
+    .catch((error) => {
+      alert("❌ " + error.message);
+    });
+};
+
+// Verify Code
+window.verifyCode = function() {
+  const code = document.getElementById("code").value;
+  const name = document.getElementById("name").value.trim();
+  const phoneNumber = document.getElementById("phone").value.trim();
+
+  confirmationResult.confirm(code)
+    .then((result) => {
+      const user = result.user;
+      const phoneKey = phoneNumber.replace(/\+/g, "");
+
+      // Save user info
+      set(ref(db, "users/" + phoneKey), {
+        name: name,
+        phone: phoneNumber,
+        uid: user.uid,
+        verified: true
+      });
+
+      alert("✅ Verified and saved successfully! Welcome " + name + "!");
+      window.location.href = "https://malek-neverletit.github.io/English-Tests/";
+    })
+    .catch((error) => {
+      alert("❌ Invalid code: " + error.message);
+    });
 };
