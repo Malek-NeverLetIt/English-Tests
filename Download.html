@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>تنزيل تطبيق Never Let It</title>
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      font-family: "Cairo", sans-serif;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(180deg, #081425 0%, #0b0f16 100%);
+      color: #fff;
+    }
+    h1 {
+      font-size: 28px;
+      font-weight: 900;
+      margin-bottom: 10px;
+    }
+    h2 {
+      font-size: 22px;
+      color: #8fcfff;
+      margin-bottom: 40px;
+    }
+    button {
+      background-color: #00aaff;
+      color: #001;
+      border: none;
+      border-radius: 10px;
+      padding: 14px 26px;
+      font-size: 20px;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 6px 16px rgba(0, 170, 255, 0.3);
+      transition: 0.3s;
+    }
+    button:hover {
+      background-color: #00c8ff;
+      transform: scale(1.05);
+    }
+    footer {
+      position: absolute;
+      bottom: 14px;
+      color: #9fcfff;
+      font-size: 13px;
+    }
+  </style>
+</head>
+<body>
+  <h1>المطور: مالك</h1>
+  <h2>تحميل تطبيق Never Let It</h2>
+  <button onclick="downloadApp()">تنزيل التطبيق</button>
+  <footer>© 2025 Never Let It | جميع الحقوق محفوظة</footer>
+
+  <script>
+    function downloadApp() {
+      // استبدل الرابط ده برابط ملف التطبيق الحقيقي لما ترفعه
+      const link = document.createElement("a");
+      link.href = "NeverLetItApp.html"; // <-- ضع هنا اسم ملف التطبيق أو رابط مباشر
+      link.download = "NeverLetItApp.html";
+      link.click();
+    }
+  </script>
+</body>
+</html>
